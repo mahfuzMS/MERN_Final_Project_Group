@@ -1,32 +1,14 @@
 const mongoose = require("mongoose");
 
-const userScamma = new mongoose.Schema(
-    {
-        name: {
-            type: String,
-            required: true,
-        },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-        password: {
-            type: String,
-            required: true,
-        },
-        role: {
-            type: String,
-            required: true,
-            default: "user",
-        },
-        isVarified: {
-            type: Boolean,
-            required: true,
-            default: false,
-        },
-    },
-    { timestamps: true }
-);
+const userSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    name: { type: String, required: true },
+    role: { type: String, enum: ["user", "admin"], default: "user" },
+    isVerified: { type: Boolean, default: false },
+    verificationToken: { type: String },
+    resetToken: { type: String },
+    resetTokenExpiry: { type: Date },
+});
 
-module.exports = mongoose.model("User", userScamma);
+module.exports = mongoose.model("User", userSchema);
